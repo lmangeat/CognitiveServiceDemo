@@ -5,10 +5,15 @@ var Client = require('node-rest-client').Client;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    // res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Express' });
+});
 
+/**
+ * POST home page
+ */
+router.post('/', function(req, res, next) {
     var client = new Client();
-    // set content-type header and data as json in args parameter
+
     var args = {
         data: {
             "documents": [
@@ -19,8 +24,8 @@ router.get('/', function(req, res, next) {
             ]
         },
         headers: { "Content-Type": "application/json",
-                    "Host": "westus.api.cognitive.microsoft.com",
-                    "Ocp-Apim-Subscription-Key": "02b6d9f59cbd47b28777420818b5a758"
+            "Host": "westus.api.cognitive.microsoft.com",
+            "Ocp-Apim-Subscription-Key": "02b6d9f59cbd47b28777420818b5a758"
         }
     };
 
