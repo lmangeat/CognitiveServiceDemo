@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('cognitive-service-demo:server');
+var debug = require('debug')('cognitiveservicedemo:server');
 var http = require('http');
 
 /**
