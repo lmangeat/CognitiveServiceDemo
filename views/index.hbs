@@ -1,2 +1,18 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="row col-md-offset-1">
+    <div class="row">
+        <h1>Text Analytics</h1>
+
+        <form class="col-md-3" method="post">
+            <textarea class="form-control" type="text" name="message"></textarea><br />
+            <button class="btn btn-primary btn-large" type="submit">Tester le texte</button>
+        </form>
+    </div>
+    <div class="row">
+        {{#if langue}}
+            <div>
+                <p><span>Langue: </span>{{langue}}</p>
+                <p><span>Score: </span>{{score}}</p>
+            </div>
+        {{/if}}
+    </div>
+</div>
