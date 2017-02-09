@@ -43,7 +43,12 @@ router.post('/', function(req, res, next) {
                     language: iso6391Name,
                     text: message
                 }, function (data) {
-                    var score = data.score;
+                    var score;
+                    if(data){
+                        score = data.score;
+                    }else{
+                        score = -1;
+                    }
                     next(null, langue, iso6391Name, score);
                 }
             );
