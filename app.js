@@ -4,8 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var utilService = require('./services/utilService');
+var confIotHub = require('./conf/iotHub.json')
+var Protocol = require('azure-iot-device-amqp').Amqp;
+var Client = require('azure-iot-device').Client;
 
 var index = require('./routes/index');
+var twitter = require('./routes/twitter');
 
 var app = express();
 
@@ -22,6 +27,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/twitter', twitter);
+
+var client = Client.fromConnectionString(confIotHub.device[0].connectionString, Protocol);
+client.open(function (err, result) {
+    if(err){
+        utilService.printErrorFor('open')(err);
+    }else{
+        client.on('message', function(msg){
+            console.log('receive data: ' + msg.getData());
+            try{
+                var command = JSON.parse(message.getData());
+                client.complete(msg, printErrorFor('complete'));
+            }catch (err){
+                utilService.printErrorFor('parse received message')(err);
+                client.reject(msg, printErrorFor('reject'));
+            }
+        });
+
+        client.on('error', function (err) {
+            utilService.printErrorFor('client')(err);
+            client.close();
+        });
+    }
+
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

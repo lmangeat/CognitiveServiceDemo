@@ -1,0 +1,10 @@
+{
+  "device":[
+    {
+      "connectionString" : "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;DeviceId=textAnalyticsDevice;SharedAccessKey=zzNZLmKys/NGPSptMzeYyLdAZac/aAqxTOpA6bJj1Tc="
+    },
+    {
+      "connectionString" : "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;DeviceId=twitterDevice;SharedAccessKey=K/TOCzWNzf8r8OnYrfgvpchglwq3/FlW1CJ1JPvtPXo="
+    }
+  ]
+}
