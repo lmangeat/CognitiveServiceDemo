@@ -10,6 +10,7 @@ var Protocol = require('azure-iot-device-amqp').Amqp;
 var Client = require('azure-iot-device').Client;
 var exphbs = require('express-handlebars');
 var iothubService = require('./services/IotHubService');
+var EventHubClient = require('azure-event-hubs').Client;
 
 var index = require('./routes/index');
 var twitter = require('./routes/twitter');
@@ -37,10 +38,29 @@ app.use('/', index);
 app.use('/twitter', twitter);
 app.use('/admin', admin);
 
+var io = require('socket.io').listen(app.listen(3500));
+app.io = io;
+io.sockets.on('connection', function (socket) {});
+
+
 var deviceConnectionString = confIotHub.device[0].connectionString;
 var deviceIdConnected = confIotHub.device[0].deviceId;
 
 iothubService.openDevice(deviceConnectionString, deviceIdConnected, function () {});
+
+var eventClient = EventHubClient.fromConnectionString(confIotHub.connectionString);
+eventClient.open()
+    .then(eventClient.getPartitionIds.bind(eventClient))
+    .then(function (partitionIds) {
+        return partitionIds.map(function (partitionId) {
+            return eventClient.createReceiver('$Default', partitionId, { 'startAfterTime' : Date.now()}).then(function(receiver) {
+                console.log('Created partition receiver: ' + partitionId);
+                receiver.on('message', function (message) {
+                    io.emit('message', JSON.stringify(message.body));
+                });
+            });
+        });
+    });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

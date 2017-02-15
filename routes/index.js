@@ -71,6 +71,7 @@ router.post('/', function(req, res, next) {
 
         //Send to Azure
         client.sendEvent(new Message(dataToAzure), function (err) {
+            // req.app.io.emit('message', dataToAzure);
             utilService.printErrorFor('send event');
         });
 
