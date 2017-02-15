@@ -12,21 +12,23 @@ var client = new Twitter({
     access_token_secret: 'xp1vOZXEWOpZXhUeHwChFdyFrdcLze7Hj21B2xBW3X4Gs'
 });
 
+
 module.exports = {
     streamTwitter: function (callback) {
         console.log('Start Twitter Stream...');
         client.stream('statuses/filter', {track: 'porn, sex, sexe'}, function(stream) {
             stream.on('data', function(event) {
                 callback(event);
-                // console.log('New Tweet From: '+ event.user.screen_name + '\n' +
-                //     event.text + '\n' +
-                //     'Tweet number : ' + ++tweetNumber + '\n');
             });
 
             stream.on('error', function(error) {
                 console.log(error);
             });
+            global.streamTwitter = stream;
         });
-
+    },
+    destroyTwitterStream: function () {
+        global.streamTwitter.destroy();
+        global.streamTwitter = null;
     }
 };

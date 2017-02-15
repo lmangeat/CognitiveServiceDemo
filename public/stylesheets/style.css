@@ -1,8 +1,17 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+.fixedPanel {
+  height:400px;
+  overflow-y:auto
+}
+
+.fixedPanel-hight{
+  height:600px;
+  overflow-y:auto
 }

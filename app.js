@@ -17,7 +17,7 @@ var twitter = require('./routes/twitter');
 var admin = require('./routes/admin');
 
 var app = express();
-var port = 3500
+var port = 3500;
 if(process.env.port){
     port = process.env.port;
 }

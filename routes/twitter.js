@@ -13,6 +13,14 @@ var confIotHub = require('../conf/iotHub.json');
 
 
 router.get('/', function(req, res, next){
+    var streamActive = false;
+    if(global.streamTwitter){
+        streamActive = true;
+    }
+    res.render('twitter', {streamActive: streamActive});
+});
+
+router.get('/start', function (req, res, next) {
     var client = Client.fromConnectionString(confIotHub.device[1].connectionString, Protocol);
     var tweetNumber = 0;
     twitterService.streamTwitter(function (event) {
@@ -31,6 +39,12 @@ router.get('/', function(req, res, next){
             utilService.printErrorFor('send event');
         });
     });
+    res.redirect('/twitter');
+});
+
+router.get('/stop', function (req, res, next) {
+    twitterService.destroyTwitterStream();
+    res.redirect('/twitter');
 });
 
 module.exports = router;

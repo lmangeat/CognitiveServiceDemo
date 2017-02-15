@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">Panel Heading</div>
+        <div class="panel-body fixedPanel-hight" id="messages"></div>
+    </div>
+</div>
+<div class="row">
+    {{#if streamActive}}
+        <a href="/twitter/stop" class="btn btn-danger">Stop stream</a>
+    {{else}}
+        <a href="/twitter/start" class="btn btn-success">Start stream</a>
+    {{/if}}
+</div>
+
+<script src="/javascripts/socketioClient.js"></script>

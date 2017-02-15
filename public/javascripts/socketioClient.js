@@ -3,5 +3,5 @@
  */
 var socket = io.connect('http://localhost:3500');
 socket.on('message', function (data) {
-    $('#messages').append(data);
+    $('#messages').append(data+'<br/><br/>');
 });
