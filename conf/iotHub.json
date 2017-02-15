@@ -1,9 +1,15 @@
 {
+  "HostName": "CognitiveServiceDemo-IoTHub.azure-devices.net;",
+  "SharedAccessKeyName": "iothubowner",
+  "SharedAccessKey": "0eLK+c8ac2tNN+aA0WHl1nHWx51cgFBM2fq67y5y0Yc=",
+  "connectionString": "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=0eLK+c8ac2tNN+aA0WHl1nHWx51cgFBM2fq67y5y0Yc=",
   "device":[
     {
+      "deviceId": "textAnalyticsDevice",
       "connectionString" : "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;DeviceId=textAnalyticsDevice;SharedAccessKey=zzNZLmKys/NGPSptMzeYyLdAZac/aAqxTOpA6bJj1Tc="
     },
     {
+      "deviceId": "twitterDevice",
       "connectionString" : "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;DeviceId=twitterDevice;SharedAccessKey=K/TOCzWNzf8r8OnYrfgvpchglwq3/FlW1CJ1JPvtPXo="
     }
   ]

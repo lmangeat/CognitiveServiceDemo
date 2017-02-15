@@ -1,0 +1,32 @@
+<div class="row">
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>DeviceId</th>
+            <th>Connected/Disconnected</th>
+            <th>Enable/Disable</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each devices}}
+            <tr>
+                <td>{{this.deviceId}}</td>
+                <td>{{this.connectionState}}</td>
+                <td>{{this.status}}</td>
+                <td>
+                    {{#compare this.deviceId '!==' ../deviceIdConnected}}
+                        <a class="btn btn-success" href="/admin/device/open/{{this.deviceId}}">Connecter</a>
+                    {{/compare}}
+                    {{#isnt this.isReadOnly true}}
+                        <a class="btn btn-danger" href="/admin/device/delete/{{this.deviceId}}">Supprimer</a>
+                    {{/isnt}}
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <a href="/admin/device/add" class="btn btn-info">Add device</a>
+</div>

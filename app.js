@@ -8,15 +8,22 @@ var utilService = require('./services/utilService');
 var confIotHub = require('./conf/iotHub.json')
 var Protocol = require('azure-iot-device-amqp').Amqp;
 var Client = require('azure-iot-device').Client;
+var exphbs = require('express-handlebars');
+var iothubService = require('./services/IotHubService');
 
 var index = require('./routes/index');
 var twitter = require('./routes/twitter');
+var admin = require('./routes/admin');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main',
+    helpers: require('handlebars-helpers')()
+}));
+app.set("view engine", "handlebars");
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -28,30 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/twitter', twitter);
+app.use('/admin', admin);
 
-var client = Client.fromConnectionString(confIotHub.device[0].connectionString, Protocol);
-client.open(function (err, result) {
-    if(err){
-        utilService.printErrorFor('open')(err);
-    }else{
-        client.on('message', function(msg){
-            console.log('receive data: ' + msg.getData());
-            try{
-                var command = JSON.parse(message.getData());
-                client.complete(msg, printErrorFor('complete'));
-            }catch (err){
-                utilService.printErrorFor('parse received message')(err);
-                client.reject(msg, printErrorFor('reject'));
-            }
-        });
+var deviceConnectionString = confIotHub.device[0].connectionString;
+var deviceIdConnected = confIotHub.device[0].deviceId;
 
-        client.on('error', function (err) {
-            utilService.printErrorFor('client')(err);
-            client.close();
-        });
-    }
-
-});
+iothubService.openDevice(deviceConnectionString, deviceIdConnected, function () {});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

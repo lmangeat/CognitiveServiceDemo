@@ -9,12 +9,15 @@ var Message = require('azure-iot-device').Message;
 var utilService = require('../services/utilService');
 var confIotHub = require('../conf/iotHub.json');
 
-var deviceConnectionString = "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;DeviceId=textAnalyticsDevice;SharedAccessKey=zzNZLmKys/NGPSptMzeYyLdAZac/aAqxTOpA6bJj1Tc=";
+var deviceConnectionString = confIotHub.device[0].connectionString;
 var deviceId = ConnectionString.parse(deviceConnectionString).DeviceId;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('index', {
+      deviceConnectionString: global.deviceConnectionString,
+      deviceIdConnected: global.deviceIdConnected
+  });
 });
 
 /**
@@ -72,6 +75,8 @@ router.post('/', function(req, res, next) {
         });
 
         res.render('index', {
+            deviceConnectionString: global.deviceConnectionString,
+            deviceIdConnected: global.deviceIdConnected,
             langue: langue,
             message: message,
             score: score});
