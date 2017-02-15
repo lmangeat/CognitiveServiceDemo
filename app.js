@@ -17,6 +17,10 @@ var twitter = require('./routes/twitter');
 var admin = require('./routes/admin');
 
 var app = express();
+var port = 3500
+if(process.env.port){
+    port = process.env.port;
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,7 +42,7 @@ app.use('/', index);
 app.use('/twitter', twitter);
 app.use('/admin', admin);
 
-var io = require('socket.io').listen(app.listen(process.env.port));
+var io = require('socket.io').listen(app.listen(port));
 app.io = io;
 io.sockets.on('connection', function (socket) {});
 
