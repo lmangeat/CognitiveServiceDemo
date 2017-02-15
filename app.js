@@ -38,7 +38,7 @@ app.use('/', index);
 app.use('/twitter', twitter);
 app.use('/admin', admin);
 
-var io = require('socket.io').listen(app.listen(3500));
+var io = require('socket.io').listen(app.listen(process.env.port));
 app.io = io;
 io.sockets.on('connection', function (socket) {});
 
