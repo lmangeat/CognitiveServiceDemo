@@ -4,10 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var utilService = require('./services/utilService');
-var confIotHub = require('./conf/iotHub.json')
-var Protocol = require('azure-iot-device-amqp').Amqp;
-var Client = require('azure-iot-device').Client;
+var confIotHub = require('./conf/iotHub.json');
 var exphbs = require('express-handlebars');
 var iothubService = require('./services/IotHubService');
 var EventHubClient = require('azure-event-hubs').Client;
@@ -17,10 +14,10 @@ var twitter = require('./routes/twitter');
 var admin = require('./routes/admin');
 
 var app = express();
-var port = process.env.port || 1337;
-// if(process.env.port){
-//     port = process.env.port;
-// }
+var port = 3500;
+if(process.env.port){
+    port = process.env.port;
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,12 +44,12 @@ app.io = io;
 io.sockets.on('connection', function (socket) {});
 
 
-var deviceConnectionString = confIotHub.device[0].connectionString;
-var deviceIdConnected = confIotHub.device[0].deviceId;
+var deviceConnectionString = confIotHub.devices.default.connectionString;
+var deviceIdConnected = confIotHub.devices.default.deviceId;
 
 iothubService.openDevice(deviceConnectionString, deviceIdConnected, function () {});
 
-var eventClient = EventHubClient.fromConnectionString(confIotHub.connectionString);
+var eventClient = EventHubClient.fromConnectionString(confIotHub.IoTHub.connectionString);
 eventClient.open()
     .then(eventClient.getPartitionIds.bind(eventClient))
     .then(function (partitionIds) {

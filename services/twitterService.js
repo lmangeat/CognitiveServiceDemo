@@ -2,7 +2,6 @@
  * Created by Léon on 10/02/2017.
  */
 var Twitter = require('twitter');
-var tweetNumber = 0;
 var fs = require('fs');
 
 var client = new Twitter({

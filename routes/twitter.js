@@ -21,7 +21,7 @@ router.get('/', function(req, res, next){
 });
 
 router.get('/start', function (req, res, next) {
-    var client = Client.fromConnectionString(confIotHub.device[1].connectionString, Protocol);
+    var client = Client.fromConnectionString(confIotHub.devices.twitter.connectionString, Protocol);
     var tweetNumber = 0;
     twitterService.streamTwitter(function (event) {
         console.log('New Tweet From: '+ event.user.screen_name + '\n' +

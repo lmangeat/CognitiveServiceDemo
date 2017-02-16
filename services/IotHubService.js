@@ -4,8 +4,6 @@
 var Protocol = require('azure-iot-device-amqp').Amqp;
 var Client = require('azure-iot-device').Client;
 var utilService = require('./utilService');
-var EventHubClient = require('azure-event-hubs').Client;
-var confIotHub = require('../conf/iotHub.json');
 
 module.exports = {
     openDevice: function (connectionString, deviceId, next) {

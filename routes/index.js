@@ -4,13 +4,9 @@ var async = require('async');
 var cognitiveApiService = require('../services/cognitiveApiService');
 var Protocol = require('azure-iot-device-amqp').Amqp;
 var Client = require('azure-iot-device').Client;
-var ConnectionString = require('azure-iot-device').ConnectionString;
 var Message = require('azure-iot-device').Message;
 var utilService = require('../services/utilService');
-var confIotHub = require('../conf/iotHub.json');
 
-var deviceConnectionString = confIotHub.device[0].connectionString;
-var deviceId = ConnectionString.parse(deviceConnectionString).DeviceId;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -60,10 +56,10 @@ router.post('/', function(req, res, next) {
         }
     ], function (err, langue, iso6391Name, score) {
 
-        var client = Client.fromConnectionString(confIotHub.device[0].connectionString, Protocol);
+        var client = Client.fromConnectionString(global.deviceConnectionString, Protocol);
 
         var dataToAzure = JSON.stringify({
-            "DeviceID": deviceId,
+            "DeviceID": global.deviceIdConnected,
             "Message": message,
             "Langue": langue,
             "Score": score

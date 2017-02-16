@@ -9,14 +9,13 @@ var uuid = require('uuid');
 var iothubService = require('../services/IotHubService');
 var _ = require('lodash');
 
-var iothubConnectionString = confIotHub.connectionString;
+var iothubConnectionString = confIotHub.IoTHub.connectionString;
 var registry = IotHub.Registry.fromConnectionString(iothubConnectionString);
 
 router.get('/', function (req, res, next) {
     registry.list(function (err, devices) {
-        console.log(confIotHub.device);
         devices.map(function (device) {
-            if(_.find(confIotHub.device, {deviceId: device.deviceId})){
+            if(_.find([confIotHub.devices.default, confIotHub.devices.twitter], {deviceId: device.deviceId})){
                 device.isReadOnly = true;
             }
         });
@@ -35,22 +34,24 @@ router.get('/device/add', function (req, res, next) {
 router.get('/device/delete/:id', function (req, res, next) {
     var deviceId = req.params.id;
     if(deviceId == global.deviceIdConnected){
-        iothubService.closeDevice(global.deviceIdConnected);
-        var deviceConnectionString = confIotHub.device[0].connectionString;
-        var deviceId = confIotHub.device[0].deviceId;
-        iothubService.openDevice(deviceConnectionString, deviceId, function () {
-            registry.delete(deviceId, function (err, device) {
-                res.redirect('/admin');
-            });
+        iothubService.openDevice(confIotHub.devices.default.connectionString, confIotHub.devices.default.deviceId, function () {
         });
     }
+    registry.get(deviceId, function (err, device) {
+        var connectionString = "HostName="+confIotHub.IoTHub.HostName+";DeviceId="+deviceId+";SharedAccessKey="+device.authentication.symmetricKey.primaryKey;
+        iothubService.closeDevice(connectionString);
+        registry.delete(deviceId, function (err, device) {
+            res.redirect('/admin');
+        });
+    });
+
 });
 
 router.get('/device/open/:id', function (req, res, next) {
     iothubService.closeDevice(global.deviceConnectionString);
     var deviceId = req.params.id;
     registry.get(deviceId, function (err, device) {
-        var connectionString = "HostName="+confIotHub.HostName+";DeviceId="+deviceId+";SharedAccessKey="+device.authentication.symmetricKey.primaryKey;
+        var connectionString = "HostName="+confIotHub.IoTHub.HostName+";DeviceId="+deviceId+";SharedAccessKey="+device.authentication.symmetricKey.primaryKey;
         iothubService.openDevice(connectionString, deviceId, function () {
             res.redirect('/admin');
         });

@@ -1,16 +1,18 @@
 {
-  "HostName": "CognitiveServiceDemo-IoTHub.azure-devices.net;",
-  "SharedAccessKeyName": "iothubowner",
-  "SharedAccessKey": "0eLK+c8ac2tNN+aA0WHl1nHWx51cgFBM2fq67y5y0Yc=",
-  "connectionString": "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=0eLK+c8ac2tNN+aA0WHl1nHWx51cgFBM2fq67y5y0Yc=",
-  "device":[
-    {
-      "deviceId": "textAnalyticsDevice",
-      "connectionString" : "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;DeviceId=textAnalyticsDevice;SharedAccessKey=zzNZLmKys/NGPSptMzeYyLdAZac/aAqxTOpA6bJj1Tc="
+  "IoTHub": {
+    "HostName": "<Your IoTHub HostName>",
+    "SharedAccessKeyName": "<Your IoTHub SharedAccessKeyName>",
+    "SharedAccessKey": "<Your IoTHub SharedAccessKey>",
+    "connectionString": "<Your IoTHub connectionString>"
+  },
+  "devices": {
+    "default": {
+      "deviceId": "<Your Default Device devceId>",
+      "connectionString" : "<Your Default Device connectionString>"
     },
-    {
-      "deviceId": "twitterDevice",
-      "connectionString" : "HostName=CognitiveServiceDemo-IoTHub.azure-devices.net;DeviceId=twitterDevice;SharedAccessKey=K/TOCzWNzf8r8OnYrfgvpchglwq3/FlW1CJ1JPvtPXo="
+    "twitter": {
+      "deviceId": "<Your Twitter Device devceId>",
+      "connectionString" : "<Your Twitter Device connectionString>"
     }
-  ]
+  }
 }
