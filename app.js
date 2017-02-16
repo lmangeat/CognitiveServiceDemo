@@ -17,10 +17,10 @@ var twitter = require('./routes/twitter');
 var admin = require('./routes/admin');
 
 var app = express();
-var port = 3500;
-if(process.env.port){
-    port = process.env.port;
-}
+var port = process.env.port || 1337;
+// if(process.env.port){
+//     port = process.env.port;
+// }
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
