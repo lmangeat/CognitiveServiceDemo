@@ -55,3 +55,13 @@ Pour faire fonctionner le projet, modifier le fichier de conf **`iotHub.json`** 
   }
 }
 ```
+
+Lancement
+-------------------
+Pour lancer le projet, faire un
+```
+npm install
+npm start
+```
+L'application tourne sur le port **3500**.
+Accéder à l'adresse http://localhost:3500/
